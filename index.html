@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <Style>
+        .table{
+            margin: 5px 18px;
+            display: flex;
+            width: 40pc;
+            justify-content: space-between;
+            height: 20px;
+            font-weight: bold;
+            font-size: large;
+            padding: 10px;
+        }
+        .head{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .data{
+            width: 40pc;
+            justify-content: space-between;
+            height: 20px;
+            margin: 5px 10px;
+        }
+
+        #empData{
+            display: flex;
+            width: 40pc;
+            justify-content: space-between;
+            height: 20px;
+            margin: 5px 12px;
+            padding: 10px;
+        }
+
+        #upd{
+            color: aliceblue;
+            font-weight: bold;
+            background-color: rgb(53, 53, 221);
+        }
+        #del{
+            background-color: brown;
+            color: aliceblue;
+            font-weight: bold;
+        }
+        
+    </Style>
+</head>
+<body>
+    <div class="head">
+        <h1>Employee Management System</h1>
+        <div>
+            <button onclick="logEmployeeList()">Show Employee</button>
+        </div>
+    </div>
+
+    <div class="table">
+        <div>Employee Id</div>
+        <div>Employee Name</div>
+        <div>Employee Address</div>
+        <div>Employee Email</div>
+        <div>Actions</div>
+    </div>
+    <div class="data"></div>
+</body>
+<script>
+    console.log("Hello")
+    logEmployeeList()
+    console.log("World")
+
+
+
+    async function logEmployeeList() {
+
+        const response = await fetch("http://localhost:8888/emp/all");
+        const list = await response.json();
+        console.log(list);
+        
+        list.map(function(elem){
+            console.log(elem.employeeName)
+
+            var empId = document.createElement("div");
+            empId.innerText =elem.employeeId;
+    
+            var empName = document.createElement("div");
+            empName.innerText =elem.employeeName;
+    
+            var empAddress = document.createElement("div")
+            empAddress.innerText = elem.employeeAddress;
+    
+            var email = document.createElement("div");
+            email.innerHTML = elem.email;
+    
+            var box=document.createElement('div');
+            box.setAttribute('id','action');
+    
+            var updateBtn = document.createElement("button");
+            updateBtn.innerHTML = "Update";
+            updateBtn.setAttribute("id", "upd")
+            updateBtn.addEventListener("onClick",updateEmployee(elem.employeeId))
+
+            var deleteBtn = document.createElement("button");
+            deleteBtn.innerHTML = "Delete"
+            deleteBtn.setAttribute("id","del")
+            deleteBtn.addEventListener("click", deleteEmployee(elem.employeeId))
+
+            var empData = document.createElement("div")
+            empData.setAttribute("id","empData");
+            empData.append(empId,empName,empAddress,email,box)
+
+            box.append(updateBtn,deleteBtn)
+            document.querySelector(".data").append(empData);
+    
+    
+        })
+    }
+
+
+    function updateEmployee(empId){
+        console.log(empId)
+    }
+
+    function deleteEmployee(empId){
+
+    fetch('http://localhost:8888/deleteEmp/'+empId,{
+            method: 'DELETE',
+            mode: 'cors',
+        }).then(res => console.log(res))
+        //console.log("maybe deleted!")
+    }
+    
+    
+</script>
+</html>
