@@ -1,66 +1,4 @@
     
-    // console.log("Hello")
-    // logEmployeeList()
-    // console.log("World")
-
-    // async function logEmployeeList() {
-
-    //     const response = await fetch("http://localhost:8888/emp/all");
-    //     const list = await response.json();
-    //     console.log(list);
-        
-    //     list.map(function(elem){
-    //         console.log(elem.employeeName)
-
-    //         var empId = document.createElement("div");
-    //         empId.innerText =elem.employeeId;
-    
-    //         var empName = document.createElement("div");
-    //         empName.innerText =elem.employeeName;
-    
-    //         var empAddress = document.createElement("div")
-    //         empAddress.innerText = elem.employeeAddress;
-    
-    //         var email = document.createElement("div");
-    //         email.innerHTML = elem.email;
-    
-    //         var box=document.createElement('div');
-    //         box.setAttribute('id','action');
-    
-    //         var updateBtn = document.createElement("button");
-    //         updateBtn.innerHTML = "Update";
-    //         updateBtn.setAttribute("id", "upd")
-    //         updateBtn.addEventListener("onClick",updateEmployee(elem.employeeId))
-
-    //         var deleteBtn = document.createElement("button");
-    //         deleteBtn.innerHTML = "Delete"
-    //         deleteBtn.setAttribute("id","del")
-    //         deleteBtn.addEventListener("click", deleteEmployee(elem.employeeId))
-
-    //         var empData = document.createElement("div")
-    //         empData.setAttribute("id","empData");
-    //         empData.append(empId,empName,empAddress,email,box)
-
-    //         box.append(updateBtn,deleteBtn)
-    //         document.querySelector(".data").append(empData);
-    
-    
-    //     })
-    // }
-
-
-    // function updateEmployee(empId){
-    //     console.log(empId)
-    // }
-
-    // function deleteEmployee(empId){
-
-    // fetch('http://localhost:8888/deleteEmp/'+empId,{
-    //         method: 'DELETE',
-    //         mode: 'cors',
-    //     }).then(res => console.log(res))
-    //     //console.log("maybe deleted!")
-    // }
 
     async function logEmployeeList() {
         try {
@@ -82,24 +20,27 @@
     }
     
     function createEmployeeDataElement(employee) {
-        const empData = document.createElement("div");
+        const empData = document.createElement("tr");
         empData.setAttribute("class", "empData");
     
-        const empId = createDataElement("Employee ID:", employee.employeeId);
-        const empName = createDataElement("Employee Name:", employee.employeeName);
-        const empAddress = createDataElement("Address:", employee.employeeAddress);
-        const email = createDataElement("Email:", employee.email);
+        const empId = createDataElement( employee.employeeId);
+        const empName = createDataElement( employee.employeeName);
+        const contact = createDataElement( employee.contactNumber);
+        const gender = createDataElement( employee.gender);
+        const empAddress = createDataElement( employee.employeeAddress);
+        const email = createDataElement( employee.email);
+        const salary = createDataElement( employee.salary);
     
         const actionBox = createActionBox(employee.employeeId);
-        empData.append(empId, empName, empAddress, email, actionBox);
+        empData.append(empId, empName,contact, empAddress,gender, email,salary, actionBox);
     
         return empData;
     }
     
-    function createDataElement(label, value) {
-        const div = document.createElement("div");
-        div.innerHTML = `<strong>${label}</strong> ${value}`;
-        return div;
+    function createDataElement(value) {
+        const td = document.createElement("td");
+        td.innerHTML = value;
+        return td;
     }
     
     function createActionBox(empId) {
@@ -125,9 +66,20 @@
     
     async function updateEmployee(empId) {
         console.log("Update employee with ID:", empId);
-        // Add your update logic here
+        try {
+            const response = await fetch(`http://localhost:8888/emp/${empId}`, {
+                method: "PUT",
+                mode: "cors",
+            });
+            if (response.ok) {
+                console.log(`Employee with ID ${empId} deleted successfully.`);
+            } else {
+                console.error(`Failed to delete employee with ID ${empId}`);
+            }
+        } catch (error) {
+            console.error("Error deleting employee:", error);
     }
-    
+}
     async function deleteEmployee(empId) {
         try {
             const response = await fetch(`http://localhost:8888/deleteEmp/${empId}`, {
@@ -143,4 +95,8 @@
             console.error("Error deleting employee:", error);
         }
     }
-    
+
+function createEmployee(){
+    window.location.href = "index.html";
+    console.log(event)
+}

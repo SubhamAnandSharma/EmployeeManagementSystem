@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="home.css" />
-    <Style>
-        
-        
-    </Style>
+    
 </head>
 <body>
     <div id="heading">
@@ -16,22 +13,28 @@
         <div>
             <button onclick="logEmployeeList()">Show Employees</button>
             <button onclick="createEmployee()">Add Employee</button>
+            <div id="emp">
+            <input type="number" placeholder="Enter Employee Id">
+            <button onclick="showEmployee()">Get Details</button>
+            </div>
         </div>
     </div>
 
     <table>
         <thead>
           <tr>
+            <th>Employee Id</th>
             <th>Employee Name</th>
             <th>Contact Number</th>
             <th>Gender</th>
             <th>Address</th>
             <th>Email</th>
             <th>Salary</th>
+            <th>Actions</th>
             <!-- <th>Actions</th> -->
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody class="data"></tbody>
       </table>
     <div class="data"></div>
 </body>
